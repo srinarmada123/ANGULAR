@@ -1,0 +1,1034 @@
+Angular
+----------
+Angular is a client side framework, which is used to create Web Applications. [SPA's]
+
+SPA	-	Single Page Application - Asychronous - AJAX
+
+framework provides skeleton of the project and specifies clear guidelines, where to write which type of code.
+
+AngularJS	->	1.x series	->	JavaScript Based
+
+Angular		->	2 to 12	->	TypeScript Based
+
+Angular can be used in combination with any server side platform such as JAVA,Nodejs, ASP.NET, PHP, Python etc.
+
+
+NPM ->	Node Package Manager
+
+TypeScript -> 	OOP
+
+Angular is developed using "TypeScript" language,  which is a superset of javascript language.
+
+Angular is developed by Google.
+
+Typescript is developed by Microsoft.
+
+Angular is free-to-use. (commercially too)
+
+Angular is Open Source. That means the source code of angular is available online for free of cost.
+
+Angular is cross-platform. That means it works in all the browsers, except less than ie9.
+
+Angular is mainly used to create "data bindings".  We establish relation between a property and html element. When the value of property is changed, the same will be automatically effected in the corresponding html element, and vice versa. So that the developer need not write  any code for DOM manipulation. Thus the developer can fully concentrate on the application logic, instead of write huge code for DOM manipulations. So we can achieve clean separation between application logic and "DOM manipulations".
+
+Angular mainly works based on Components. The component is a class, which represents a specific section of the page.
+
+int x;
+
+x=10;
+
+<property>="value";
+
+  title = 'myfirstproject';
+
+  {{title}}	->	Interpollation.
+
+App	->	Component
+
+app.component.html
+app.component.ts
+app.component.spec.ts
+app.component.css
+
+
+Web page	-	Header
+		sidebar
+		main area
+		footer
+
+Angular mainly works on components. 
+Component is a class, which represents a specific part of the web page.
+
+Goals of Angular
+---------------------
+Separation of DOM Manipulation [html] from application logic [ts].
+
+Make a SPA [Single Page Application] development easier. SPA provides client-side navigation system. But can communicate with server only through AJAX; there web page never gets refreshed fully. Ex: Gmail
+
+Separation of Business logic [service.ts] from Application logic [ts]. 
+
+Enable Unit Testing. The components can be unit tested individually.
+
+Versions
+-----------
+AngularJs			->	1.x series
+
+Angular 2 is not extension to AngularJs. It is a completely rebuilt, rewrite. Angular 2 is rewrite from the same team that built angularjs.
+
+Angular 2+ all are mostly similar, except some internal changes for stability and performance.
+
+AngularJs						Angular
+1. AngularJS has performance drawbacks because, the 	1. Angular is faster in performance because it
+digest loop checks and updates all properties when a field 	updates a single property that has been really
+or property has been modified.				modified.
+
+The digest loop may repeat up to 10 times. due to a watcher 	No digest loop and no need of any repetition.
+of one property can update other property.
+
+2. AngularJs is based on JavaScript, which is prototype	2. Angular is based on TypeScript, which is
+based oops language.				class based oops language.
+
+3. AngularJs is based on MVC architecture. The code 	3. Angular is based on "Components". 
+will be divided into 3 major parts called model, view,	Component is a class that stores data and 
+controller. Model is an object that stores data. View is 	manipulate the data. View is a html file that
+a html file contains presentation logic to display data.	contains presentation logic to display data.
+Controller is a function that manipulates data.
+
+4. AngularJS is mainly used for development of 		4. Angular is  also mainly used for 
+SPA's [Single Page Application].			development of SPAs.
+
+5. Apart from data bindings, Angularjs provides		5. Apart from data bindings, Angular
+many additional features such as validations, routing, 	provides many additional features such as
+animations, services, filters, providers, factories,		validations, routing, animations, services, 
+ configuration, AJAX  etc.				pipes, AJAX etc.
+
+6. Supports "Scopes" (Models) to store data.		6. Instead of Scopes alternately Components.
+
+7. Supports Only one  expression syntax. {{ }}		7. Supports Multiple expression syntaxes 
+						{{}}, [], (), [()]
+
+8. Doesn't provide any CLI (command Line		8. Provides CLI, to generate components and
+Interface), to generate components and services easily 	services easily from the command prompt 
+from the command prompt commands. 			easily.
+
+Features of Angular:
+-------------------------
+1. Typescript Based: Predefined and user-defined code is developed based on TypeScript Language.
+2. Faster Performance: Angular 2+ executes faster than AngularJS.
+3. Modular: Angular is divided into multiple small parts called packages. For example "core",""platform-browser" etc. The developer can use any of these modules based on the requirement.
+
+Building Blocks of Angular:-
+---------------------------------
+1. Component: 	Application State + Application Logic
+2. Metadata:	Details about the component / module etc.
+3. Template: 	Design logic (HTML)
+4. Data Binding:	Connection between HTML element and Component Property.
+5. Module:	Group of components, directives, pipes.
+6. Service:	Re-usable code / business Logic.
+7. Dependency Injection:	Injecting (loading) Service objects into components.
+8. Directive:		Manipulation DOM Elements.
+9. Pipe:			Transforming values before displaying.
+
+Types of compilation in Angular:-
+----------------------------------------
+2 types
+
+1. Just-in time compilation
+	Templates (.html files) and angular compiler files will be loaded into the browser and then the templates will be compiled automatically at the time of execution, when the component is invoked. 
+
+	The template will be compiled only for the first time, when it invoked, after loading the application files into the browser.
+
+Disadvantages:- Performance is slower, because every time when you run the application, the templates will be loaded into browser and compiled in the browser. it takes some time to compile.
+
+Advantage: The developer need not compile it manually at command prompt, for each modification of file.
+
+This is recommended during the development.
+
+Bootstraping (loading app module into the browser) is done by @angular/platform-browser-dynamic" package.
+	
+2. Ahead-of-time compilation
+	 The developer gives "ngc" command in the command prompt, then the "ngc" compiler compiles the templates into javascript code, the compiled javascript code will be loaded into the browser and it directly executes. There is no need of loading "templates (.html files)" and "angular compiler scripts into the browser.
+
+Advantage: Performance is faster, because the templates are already compiled.
+
+Disadvantage: The developer need to compile it manually at command prompt, for each modification of code.
+
+This is recommended in the production server only.
+
+Bootstraping is done by "@angular/platform-browser" package.
+
+Installation
+--------------
+nodejs
+
+C:\Users\sai-ram>node -v
+v14.15.5
+
+create one folder
+
+npm install -g @angular/cli
+
+visual studio code 
+
+Steps to prepare first application
+-----------------------------------------
+1. ng new Projectname
+	feedback 	no
+	routing	no 
+	css	
+
+2. start->search->cmd 
+	open projectname
+	code .	->	it opens visual studio.
+
+
+3. Running
+	npm start (or) ng serve (or) ng s (or) 
+
+	ng s 0  (or) ng serve -open   it directly opens browser.
+	
+Folder Structure
+--------------------
+package.json:-
+------------------
+	The "package.json file represents the configuration settings / meta data of the application.
+	It specifies the packagename, version, dependencies etc.
+	It is a fixed filename.
+	It is must, without which the application is not accepted.
+	It is a JSON files, which means it contains key/value pairs. Every key and value must be within 	double quotes " " / Single quotes ''.
+	
+Properties of "package.json":
+	1. name: 	Represents name of the application.
+		It can be maximum of 214 characters.
+		Non-URL friendly characters such as /,;,@ etc. are not allowed.
+		Ex: "name":"app1"
+
+	2. version:	 Represents version of the application. Ex: 1.0.0
+		It should have 3 numbers major version, minor version, subminor version.
+		EX: "version" : "0.0.0"
+
+	3. license: Represents license of the application. Ex: MIT,ISC
+		MIT - Massachusetts Institute of Technology.
+		MIT license allows to create private applications that can be used either prviately 		within the organization and also can be shared with other known organizations.
+		Ex: "license" : "MIT"
+
+		ISC  - Internet Systems Consortium.
+		ISC license allows to create public applications that can be used anywhere.
+		Ex: "license" :"ISC"
+
+	4. scripts:	Represents a set of commands that can run on command prompt to run, test the 		applications using commands.
+		Ex: "scripts":
+			{
+			"start":"ng serve"
+			}
+	5. private: Represents whether the application should be used privately within the same 		organization or not.
+		If it is true, it can be used only within the same organization. Outside usage is not 		permitted.
+		Ex: "private":true
+	6. dependencies: Represents the list of packages that are to be installed to run the 				 applications. These packages will be installed in both developer machine and 		production server.	
+		Ex: "dependencies":
+			{
+				"@angular/core":"~11.2.1"
+			}
+	7. devDependencies: Represents the list of packages that are to be installed ti develop the 					application. These packages will be installed only in the developer machine. 				not in the production server.
+			Ex: "devDependencies":
+				{
+					"@angular/cli":"~11.2.1"
+				}				
+
+Packages of Angular
+--------------------------
+	The angular framework is available as a collection of packages.
+	Each feature of the framework is representsed as a package. For ex: routing is available as a 	package called "@angular/router".
+	We have to install those packages in order to develop angular application.
+	2 types
+	1. Angular Packages
+		These packages are part of angular framework.
+		Ex: @angular/core,@angular/platform-browser etc.
+
+	2. Non-Angular Packages
+		These packages are not part of angular framework. provided by third party companies, 		but needed / useful in angular applications.
+		EX: "typescript"
+			This package provides typescript compiler, which is used to compile 			"typescript files (.ts)" into javascript files(.js).
+			
+			This is the mandatory package.
+			This package must be installed globally, with -g option.
+		rxjs:
+		-----
+			This package "rxjs" (Reactive Extensions for JavaScript) provides necessary 			code for making ajax calls to the server.
+
+			This is the mandatory package.
+		
+
+		jasmine:
+		----------
+			This package is used to wrtie test cases for unit testing of components. It is 			used to execute test cases within one browser.
+			This is mandatory package.
+
+		karma:
+		--------
+			This package is used to execute test cases on different browsers.
+			This is mandatory package.
+			
+tsconfig.json
+----------------
+	Every compiler has some configuration settings.
+	This file is used to set configuration settings of the "tsc" (typescript compiler).
+	The" tsc" compiler automatically reads the "tsconfig.json" file; and then it compiles the ".ts" files 	into ".js" files.
+	This is a fixed filename.
+
+	"tsconfig.json" - Configuration Settings
+		sourceMap
+		--------------
+			true/false
+		
+			true: Generates "source map" files. The source map file contains mapping 				between line numbers of ".ts" files into ".js" file. Based on the source map 				files, you  can debug the typescript code. It is recommended to generate 
+			source map files during development.
+		
+			false: Source map files will not be generated. So then we can debug 			"javascript code" only. Source map files are not required in production.
+
+
+		target:
+			Represents javascript version, into which the ".ts" file have to be compiled.
+			Ex: "es6".
+			Recommended: "es6"
+			options: es3 | es5 | es6
+	experimentalDecorators:
+		true|false
+		true: It supports decorators.  Ex: @Component, @NgModule, @Injectable etc.
+		false: It doesn't support decorators.
+	emitDecoratorsMetadata:
+		true|false
+		true: It supports decorators with metadata.
+		false: It doesn't supports decorators with metadata.
+	lib:
+	It represents the list of library files to be included while compilation of the typescript files.	
+	"lib": [
+		      "es2018",
+		      "dom"
+    		]
+	Note: These will be installed automatically.
+
+	es2018:
+		This library contains essential data type such as Number, String, Boolean, Object, 		Function, RegEx etc.
+
+	dom: This library contains essential classes such as "HTML element", "Document","Window" etc.
+
+	outDir: Specifies the directory ( folder) where the compiled files needs to be stored.
+
+tslint.json
+-------------
+	This file contains configuration settings for "tslint" tool, which is used to verify whether the 		typescript files are following a set of coding standards or not.
+	Ex: We can check the maximum length of the line, indentation etc.
+
+karma.conf.js
+-----------------
+	This file contains configuration settings for "karma" tool, which is used to execute unit test cases 	on multiple browsers.
+
+angular.json
+---------------
+	This file contains configuration settings for "@angular/cli" tool, which is used to create, compile 	and run the application.
+	It contains settings such as home page (index.html), startup file name (main.ts), css filename 	(styles.css) etc.
+
+polyfills.ts
+-------------
+	This file contains configuration settings for importing (loading) polyfills which are needed to run angular applications on old browsers such as ie.
+
+src/styles.css
+----------------
+	This file contains CSS styles that are applicable for entire application.
+
+src/index.html
+------------------
+	This file is home pge (startup page) for the entire application.
+	The content of the entire application appears in the same html file only.
+	This file invokes the "AppComponent" using <app-root></app-root> tag.
+
+main.ts
+----------
+	This is the first typescript file that executes in the angular application.
+	It enables the "Production mode" and specifies the startup module.
+
+Application Modes in angular
+-------------------------------------
+	1. Development Mode:
+		Change Detection occurs twice. Raises error if any different detected between first 		attemp and second attempt. This is to identify whether any side effects in change 		detection.
+		It is the default mode.
+	2. Production Mode
+		Change Detection occurs only once.
+		syntax: enableProdMode();
+
+Startup Module:-
+--------------------
+	Angular application can has any no.of modules.
+	The "startup module" is a module, which needs to be executed first in the angular application.
+	By default startup module name is  "AppModule".
+	Loading the startup module is also called as "Bootstrapping the module".
+	syntax:- platformBrowserDynamic().bootstrapModule(Modulename);
+
+src/app/app.module.ts
+----------------------------
+	This file contains definition of "AppModule".
+	Angular application can has any no.of modules. It should contains atleast one module, that is 	called as "AppModule".
+	This file imports "AppComponent" from "app.component.ts" file and bootstraps the same in 
+	"AppModule".
+
+src/app/app.component.ts
+---------------------------------
+This file contains definition of "AppComponent".
+Angular application can has any no.of components. It should contain atleast one component, that is called as "AppComponent".
+
+This file specifies path of template file "app.component.html" and css file "app.component.css" file.
+
+src/app/app.component.html
+-------------------------------------
+This file contains actual content (html code) of the component.
+Every component should have a template.
+This template content will be rendered into <app-root></app-root> tag at index.html.
+
+src/app/app.component.css
+-----------------------------------
+This file contains css styles of "AppComponent".
+One component can have only one css file.
+By default, this file is empty.
+
+src/app/app.component.spec.ts
+----------------------------------------
+This file contains test cases for "AppComponent".
+This test case file should have "spec.ts" file extension.
+
+
+e2e:-
+-----
+end to end testing related files.
+
+node_modules:-
+-------------------
+packages that are required for angular application.
+
+
+assets:-
+---------
+Images can placed inside assets.
+
+
+Components
+----------------
+The component class represents certain section of the webpage. Ex: "login form" is represented login component.
+The component class includes "properties" (to store data), "methods" (event handler methods to manipulate data).
+Every angular application contains atleast one component, which is called as "AppComponent". You can create any no.of components in the project.
+The component is invoked (called) through a custom tag (user-defined tag). Ex: LoginComponent is invoked through <login></login> tag. The custom tag is also called as "selector".
+The component class should have a decorator called "@Component", to define that the class is a component class. 
+syntax:-
+---------
+import { Component } from '@angular/core';
+					-->	Importing section
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+
+@Component - decorator
+
+({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+					-->	Metadata
+export class AppComponent {
+  	property:datatype=value;		-->	typescript variable syntax
+	method(arguments): return type	-->	method
+}
+					-->	class 
+
+
+Meta Data Properties of Component:
+	1. selector: Represents the selector (tag) to invoke the component.
+	2. template: Represents the template content of the component.
+	3. templateUrl: Represents the html file that has to be rendered when the component is invoked.
+	4. styleUrls: Represents the list if style sheets (css files) that have to be loaded for the component.
+	5. providers: Represents the list of services to be imported into the component.
+	6. animations: Represents the list of animations to be performed in the component.
+
+
+Data Bindings:-
+	The data binding is the relation between "component" and the "template".
+	When the value of "component" is changed, the "template" will be changed automatically. when 	the value of "template" is changed, the "component" will be changed automatically.
+	Databinding is 4 types:
+	1. Interpollation Binding
+	2. Property Binding
+	3. Event Binding
+	4. Two-Way Data Binding
+
+Interpollation Binding:-
+----------------------------
+syntax: {{property}}
+	It displays the value of the property in the template.
+	when the value of property is changed, the same value will be automatically updated in the 	template.
+		
+	template			component
+	{{property}}		Property
+
+App.component.ts
+------------------------
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  //property:datatype=value;
+  empNo:number=100;
+  //property=value;
+  empName="Rama";
+  //property;
+  empSalary;
+  constructor()
+  {
+    this.empSalary=12000;
+  }
+}
+
+App.component.html
+---------------------------
+EMPLOYEE INFORMATION<br/>
+EMPLOYEE NO = {{empNo}}<br/>
+EMPLOYEE NAME = {{empName}}<br/>
+EMPLOYEE SALARY = {{empSalary}}
+
+app.component.ts
+------------------------
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'project1';
+  //property=value;
+  eno=100;
+  ename="Rama";
+  sal=12000;
+}
+
+app.component.html
+---------------------------
+{{title}}
+<br/>
+EMPLOYEE INFORMATION<br/>
+EMPLOYEE NO = {{eno}}<br/>
+EMPLOYEE NAME = {{ename}}<br/>
+EMPLOYEE SALARY = {{sal}}
+<br/>
+
+Property Binding:
+---------------------
+syntax: <tag [attribute]="property">...</tag>
+
+"Property Binding" is used to send data from component to template and assign the same into an attribute of the tag.
+
+When the value of the property is changed, the same value will be automatically updated in the 	template.
+	
+	template 				component
+	[attribute]="property"		Property
+
+
+app.component.ts
+-----------------------
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'project1';
+  //property:datatype=value;
+  eno:number=100;
+  ename:string="Rama";
+  sal:number=12000;
+}
+
+app.component.html
+---------------------------
+
+<!-- {{title}}
+<br/>
+EMPLOYEE INFORMATION<br/>
+EMPLOYEE NO = {{eno}}<br/>
+EMPLOYEE NAME = {{ename}}<br/>
+EMPLOYEE SALARY = {{sal}}
+<br/> -->
+<b>EMPLOYEE INFORMATION</b><br/>
+<span>EMPLOYEE NO = <span [innerHTML]="eno"></span></span><br/>
+<span>EMPLOYEE NAME = <span [innerHTML]="ename"></span></span><br/>
+<span>EMPLOYEE SALARY = <span [innerHTML]="sal"></span></span><br/>
+
+Event Binding:-
+------------------
+Syntax: <tag (event)="method()"></tag>
+	It is used to pass event notifications from template to component.		
+	
+	template				component
+	(event)="method()"			Method
+
+home.component.ts
+-----------------------
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent implements OnInit {
+
+  msg:string="";
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+  Show()
+  {
+    this.msg="Sample button";
+    //console.log("This is simple click event");
+  }
+
+}
+
+home.component.html
+-----------------------------
+<p>home works!</p>
+<input type="submit" value="Register" (click)="Show()"/>
+<div [innerHTML]="msg"></div>
+
+app.component.html
+---------------------------
+<app-home></app-home>
+
+Two Way Data Binding:-
+----------------------------
+Syntax: <tag [(ngModel)]="property"></tag>
+
+Two Way Data Binding is a combination of both "property binding" and "event binding".
+
+When you change the value of property, the same will be automatically updated in the html element.
+
+When you change the value of html element, the same will be automatically updated in the property.
+
+The ngModel is a predefined-directive, which is used to create two-way data binding.
+
+Two-Way Binding is applicable only for <input> and <select> tags.
+
+"FormsModule" must be imported in order to use two way data binding.
+
+	template				component
+[(ngModel)]="property"			property
+<input> and <select> only
+
+app.module.ts
+------------------
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+					import { FormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+import { RegistrationExComponent } from './registration-ex/registration-ex.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    RegistrationExComponent
+  ],
+  imports: [
+    BrowserModule,
+					    FormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+home.component.ts
+--------------------------
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent implements OnInit {
+
+  username:string="";
+  password:string="";
+  msg:string="";
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+  signin()
+  {
+    if(this.username=="sai"&&this.password=="ram")
+      this.msg="Login Successful";
+      else
+      this.msg="Login Failed";
+  }
+
+}
+
+home.component.html
+<!-- <p>home works!</p>
+<input type="submit" value="Register" (click)="Show()"/>
+<div [innerHTML]="msg"></div> -->
+
+<h2>Login Form</h2>
+<table>
+    <tr>
+        <td>User Name:</td>
+        <td><input type="text" id="un" [(ngModel)]="username"/></td>
+    </tr>
+    <tr>
+        <td>Pass Word:</td>
+        <td><input type="password" id="pw" [(ngModel)]="password" /></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="submit" (click)="signin()" /></td>
+    </tr>
+</table>
+
+<div [innerHTML]="msg"></div>
+
+Built-in Directives
+----------------------
+Style
+------
+	It is used to set the CSS property value dynamically at run time.
+	When the value of component property is changed, the value of css property will be 	automatically gets changed.
+	Syntax:
+		<tag [style.cssproperty]="component property">
+		</tag>
+
+How to generate component?
+-------------------------------------
+ng g c builtindirectivesex
+
+builtindirectivesex.component.ts
+-----------------------------------------
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-builtindirectivesex',
+  templateUrl: './builtindirectivesex.component.html',
+  styleUrls: ['./builtindirectivesex.component.css']
+})
+export class BuiltindirectivesexComponent implements OnInit {
+  marks:number=30;
+  mycolor:string="";
+
+  constructor() { 
+    if(this.marks>=35)
+      this.mycolor="green";
+    else  
+      this.mycolor="red";
+  }
+
+  ngOnInit(): void {
+  }
+
+}
+
+builtindirectivesex.component.html
+---------------------------------------------
+<div>
+<p>builtindirectivesex works!</p>
+<!-- <tag [style.cssproperty]="component property">
+</tag> -->
+<div [style.color]="mycolor">{{marks}}</div>
+</div>
+
+app.component.html
+---------------------------
+<app-builtindirectivesex></app-builtindirectivesex>
+
+
+ngClass
+----------
+It is used to set the css classname dynamically at runtime.
+When the value of component property is changed, the css class will be automatically chaged.
+Use this directive to set styles with multiple properties, conditionally at runtime.
+
+syntax:-
+	<tag [ngClass]="componentproperty">
+	</tag>
+
+ng g c ngclassex
+
+ngclassex.component.ts
+-------------------------------
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-ngclassex',
+  templateUrl: './ngclassex.component.html',
+  styleUrls: ['./ngclassex.component.css']
+})
+export class NgclassexComponent implements OnInit {
+  marks:number=30;
+  myclass:string="";
+
+  constructor() { 
+    if(this.marks>=35)
+      this.myclass="class1";
+    else  
+      this.myclass="class2";
+  }
+
+  ngOnInit(): void {
+  }
+
+}
+
+ngclassex.component.html
+----------------------------------
+<div>
+    <h4>ngClass Example</h4>
+    <div [ngClass]="myclass">
+        {{marks}}
+    </div>
+</div>
+
+app.component.html
+---------------------------
+<app-ngclassex></app-ngclassex>
+
+ngIf:-
+------
+The "ngIf" displays the element if the condition is "true". Otherwise the element will be deleted from DOM.
+syntax:
+	<tag *ngIf="condition">
+	</tag>
+	The "ngIf" must be prefixed with "*", to mark that it accepts "microsyntax", which is not just an expression, it accepts its own syntax.
+	Use "ngIf", if you want to display some content based on the condition. The content appears when the condition is true, it disappears when the condition is false.
+
+ng g c ngifex
+
+ngifex.component.ts
+---------------------------
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-ngifex',
+  templateUrl: './ngifex.component.html',
+  styleUrls: ['./ngifex.component.css']
+})
+export class NgifexComponent implements OnInit {
+
+  marks:number=20;
+  b:boolean;
+
+  constructor() { 
+    if(this.marks>=35)
+      this.b=true;
+    else  
+      this.b=false;
+  }
+  ngOnInit(): void {
+  }
+
+}
+
+ngifex.component.html
+------------------------------
+<p>ngifex works!</p>
+<!-- <tag *ngIf="condition">
+</tag> -->
+<div *ngIf="b" style="background-color:#33ff66">
+    Congratullations!
+</div>
+<div *ngIf="!b" style="background-color:#ff0000">
+    Better Luck Next Time!!
+</div>
+
+app.component.html
+---------------------------
+<app-ngifex></app-ngifex>
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+	
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
