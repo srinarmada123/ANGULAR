@@ -863,6 +863,369 @@ app.component.html
 <app-ngifex></app-ngifex>
 
 
+ngIf:-
+------
+The *ngIf displays the element if the condition is "true", otherwise the element will be deleted from the DOM.
+Syntax: <tag *ngIf="condition">
+	</tag>
+	The ngIf must be prefixed with "*", to mark that it accepts "micro syntax", which is not just an "expression", it accepts its own syntax.
+	Use "ngIf" if you want to display some content based on the cindition. The content appears when the condition is true, it disappears when the condition is false.
+
+ng g c ngIfex
+
+.ts
+marks:number=70;
+b:boolean;
+
+constructor()
+{
+if(this.marks>=35)
+this.b=true;
+else
+this.b=false;
+}
+
+.html
+<h3>ngIf</h3>
+<div *ngIf="b" style="background-color:#33ff66">
+	Congratuallations
+</div>
+<div *ngIf="!b" style="background-color:#00ccff">
+	Better Luck next time!!
+</div>
+
+app.component.html
+<app-ngifex></app-ngifex>
+
+ngIf and else:
+----------------
+The "ngIf and else" displays one element if it is "true"; otherwise it displays another element.
+syntax: 
+	<tag *ngIf="condition; then template1; else template2">	
+	</tag>
+	<ng-template #template1>
+	....
+	</ng-template>
+	<ng-template #template2>
+	.......
+	</ng-template>
+
+	The "ng-template" is a container, inside which you can place any no.of tags.
+	Use "ngIf and else, if you want to display one content for the true case, another content for the 	false case.
+	
+ng g c ngIfelseex
+
+ngclassex.component.ts
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-ngclassex',
+  templateUrl: './ngclassex.component.html',
+  styleUrls: ['./ngclassex.component.css']
+})
+export class NgclassexComponent implements OnInit {
+  marks:number=30;
+  b:boolean;
+  constructor() {
+    if(this.marks>=35)
+    {
+        this.b=true;
+    }
+    else
+        this.b=false;
+   }
+
+  ngOnInit(): void {
+  }
+
+}
+
+ngclassex.component.html
+<div *ngIf="b; then template1; else template2">	
+</div>
+<ng-template #template1>
+<h1 style="color:green">Congratualations.</h1>
+</ng-template>
+<ng-template #template2>
+<h1 style="color:red">Better Luck Next Time.</h1>
+</ng-template>
+
+app.component.html
+<app-ngifelseex></app-ngifelseex>
+
+ngSwitch:-
+-------------
+The "ngSwitch" checks the value of a variable, whether it matches with any one of the "cases" and displays the element when it matches with anyone.
+Use "ngSwitch" if you want to display some content for every possible value in a variable.
+Syntax:
+<tag [ngSwitch]="property">
+	<tag *ngSwitchCase="'value'"></tag>
+	<tag *ngSwitchCase="'value'"></tag>
+	<tag *ngSwitchCase="'value'"></tag>
+	<tag *ngSwitchCase="'value'"></tag>
+	....
+	<tag *ngSwitchDefault></tag>
+</tag>
+
+ng g c ngclassex
+
+ngclassex.component.ts
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-ngclassex',
+  templateUrl: './ngclassex.component.html',
+  styleUrls: ['./ngclassex.component.css']
+})
+export class NgclassexComponent implements OnInit {
+  num:number=0;
+  constructor() {
+   }
+
+  ngOnInit(): void {
+  }
+
+}
+
+ngclassex.component.html
+
+Enter a Number: <input type="text" [(ngModel)]="num"/><br/>
+<div [ngSwitch]="num">
+	<div *ngSwitchCase="'1'">One</div>
+	<div *ngSwitchCase="'2'">Two</div>
+	<div *ngSwitchCase="'3'">Three</div>
+	<div *ngSwitchCase="'4'">Four</div>	
+    <div *ngSwitchCase="'5'">Five</div>	
+    <div *ngSwitchCase="'6'">Six</div>	
+    <div *ngSwitchCase="'7'">Seven</div>	
+	<div *ngSwitchDefault>This is default.</div>
+</div>
+
+
+app.component.html
+<app-ngclassex></app-ngclassex>
+
+ngFor:
+It is used to repeat the tag once for each element in the array. It generates (repeats) the given content once for one element of the array. For example, you are reading friends names from an array and displaying the same as bulleted list.
+We have to prefix "*" before the ngFor, as it is the microsyntax. The "microsyntax" means, it's not just a value, we can write some complex code in it.
+arrayname=[value1,value2,...];
+Ex:- Displaying products list in the online shopping website.
+Use "ngFor" to display list of records. Ex: List of banks, list of salesman and their sales etc.
+syntax:
+	<tag *ngFor="let variable of arrayname">
+	</tag>
+
+ng g c ngforex
+
+ngforex.component.ts
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-ngforex',
+  templateUrl: './ngforex.component.html',
+  styleUrls: ['./ngforex.component.css']
+})
+export class NgforexComponent implements OnInit {
+  friendsnames:any[]=[
+    {"name":"Rama"},
+    {"name":"Sita"},
+    {"name":"Siva"},
+    {"name":"Sai"}
+  ];
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+ngforex.component.html
+<p>ngforex works!</p>
+<ul>
+    <li *ngFor="let p of friendsnames">
+        {{p.name}}
+    </li>
+</ul>
+
+<!-- <tag *ngFor="let variable of arrayname">
+</tag> -->
+
+Multiple Components
+---------------------------
+		APP
+INDIA			USA	
+New Delhi		New York
+Chennai			Washing Ton
+
+Multiple Modules
+---------------------
+
+Children of Components:-
+--------------------------------
+Sharing data from parent component to child component
+	We can share the data from parent component to child component using "property binding".
+	Assign the value of parent component's property to child components property, using "property 	binding".
+	Set @Input() decorator for the child component's property to accept value from parent 	component's property. You can import "input" decorator from "@angular/core" package.
+steps:
+	import "Input":
+		import { Input } from '@angular/core';
+	Create data in parent property ay parent component:
+		class parentcomponent
+		{
+			parentproperty:datatype;
+			....
+		}
+	Pass data from parent property to child property:
+		<child [childproperty]="parentproperty" ...>
+		</child>
+	Receives data into child property at child component:
+		class childcomponent
+		{
+			@Input() childproperty:datatype;
+			...			
+		}
+
+ng g c sharingdata
+
+sharingdata.component.ts
+
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-sharingdata',
+  templateUrl: './sharingdata.component.html',
+  styleUrls: ['./sharingdata.component.css']
+})
+export class SharingdataComponent implements OnInit {
+  //parentproperty:datatype;
+  eno:number=100;
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+<p>sharingdata works!</p>
+<app-sharingdatatochild [empno]="eno">
+</app-sharingdatatochild>
+
+ng g c sharingdatatochild
+
+sharingdatatochild.component.ts
+
+import { Component, Input, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-sharingdatatochild',
+  templateUrl: './sharingdatatochild.component.html',
+  styleUrls: ['./sharingdatatochild.component.css']
+})
+export class SharingdatatochildComponent implements OnInit {
+  //@Input() childproperty:datatype;
+  //@Input() childproperty:datatype;
+  @Input()
+  empno!: number;
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+sharingdatatochild.component.html
+<p>sharingdatatochild works!</p>
+EMP NO = {{empno}}
+
+app.component.html
+----------------------------
+<app-sharingdata></app-sharingdata>
+
+ViewChild:-
+-------------
+The "ViewChild" represents an element, which is a child of the view (template) of the component.
+ViewChild is used to access an element, that is present in the view (template) of the component.
+ViewChild can contain a child element of a specific type(class).
+ViewChild is used to access properties / methods of the child.
+
+Steps:
+	Import "ViewChild":
+	import { ViewChild } from '@angular/core'; 
+		
+	Create ViewChild Property:
+	class parentcomponent
+	{
+		@ViewChild(classname) propertyname:classname;
+		....
+	}		
+
+	Access properties / methods of the child element, using ViewChild's property:
+	this.propertyname.property
+	this.propertyname.method()
+
+ng g c sharingdata
+
+sharingdata.component.ts
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { SharingdatatochildComponent } from '../sharingdatatochild/sharingdatatochild.component';
+
+@Component({
+  selector: 'app-sharingdata',
+  templateUrl: './sharingdata.component.html',
+  styleUrls: ['./sharingdata.component.css']
+})
+export class SharingdataComponent implements OnInit {
+  @ViewChild(SharingdatatochildComponent)
+  emp!: SharingdatatochildComponent;
+
+  constructor() { }
+
+  ngOnInit(): void {
+
+  }
+  change_data()
+  {
+    console.log(this.emp.empname);
+    this.emp.empname="Sita";
+    console.log(this.emp.empname);
+  }
+}
+
+sharingdata.component.html
+<p>sharingdata works!</p>
+<app-sharingdatatochild>
+</app-sharingdatatochild><br/>
+<input type="button" (click)="change_data()" value="Change Child Data"/>
+
+ng g c sharingdatatochild
+
+sharingdatatochild.component.ts
+import { Component, Input, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-sharingdatatochild',
+  templateUrl: './sharingdatatochild.component.html',
+  styleUrls: ['./sharingdatatochild.component.css']
+})
+export class SharingdatatochildComponent implements OnInit {
+
+  empname: string="Rama";
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+sharingdatatochild.component.html
+<p>sharingdatatochild works!</p>
+EMP NAME = {{empname}}
+
+app.component.html
+<app-sharingdata></app-sharingdata>
+
 
 
 	
