@@ -1227,26 +1227,564 @@ app.component.html
 <app-sharingdata></app-sharingdata>
 
 
+ViewChildren:-
+------------------
+The ViewChildren represents a set of elements of specific type, which is a child of the view (template) of the component.
+ViewChildren is used to access elements, that is present in the view (template) of the component.
+ViewChildren is used to access properties / methods of the children.
 
+Steps:
+	Import "ViewChildren" and "QueryList":
+	import { ViewChildren,QueryList} from "@angular/core";
 	
+	Create ViewChildren property:
+	class parentcomponent
+	{
+		@ViewChildren(classname) propertyname:QueryList<classname>;
+		...
+	}
 
+	Access properties / methods of the child element, using ViewChildren's property:
+	var array=this.propertyname.toArray();
+	array[index].property
+	array[index].method()
 
+sharingdata.component.ts
 
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { SharingdatatochildComponent } from '../sharingdatatochild/sharingdatatochild.component';
 
+@Component({
+  selector: 'app-sharingdata',
+  templateUrl: './sharingdata.component.html',
+  styleUrls: ['./sharingdata.component.css']
+})
+export class SharingdataComponent implements OnInit {
+  //@ViewChild(SharingdatatochildComponent)
+  //emp!: SharingdatatochildComponent;
 
+  //@ViewChildren(classname) propertyname:QueryList<classname>;
+  @ViewChildren(SharingdatatochildComponent)
+  emp!:QueryList<SharingdatatochildComponent>;
+  i:number=0;  
+  constructor() { }
 
+  ngOnInit(): void {
 
+  }
+  change_data()
+  {
+    // console.log(this.emp.empname);
+    // this.emp.empname="Sita";
+    // console.log(this.emp.empname);
+    var array=this.emp.toArray();
+  	//array[0].empname="Sairam";    
+    for(;this.i<array.length;this.i++)
+      array[this.i].empname="SitaRam";
+  }
+}
 
+sharingdata.component.html
 
+<p>sharingdata works!</p>
 
+<app-sharingdatatochild>
+</app-sharingdatatochild><br/>
 
+<app-sharingdatatochild>
+</app-sharingdatatochild><br/>
 
+<app-sharingdatatochild>
+</app-sharingdatatochild><br/>
 
+<input type="button" (click)="change_data()" value="Change Child Data"/>
 
+sharingdatatochild.component.ts
 
+import { Component, Input, OnInit } from '@angular/core';
 
+@Component({
+  selector: 'app-sharingdatatochild',
+  templateUrl: './sharingdatatochild.component.html',
+  styleUrls: ['./sharingdatatochild.component.css']
+})
+export class SharingdatatochildComponent implements OnInit {
 
+  empname: string="Rama";
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
 	
+sharingdatatochild.component.html
+
+<p>sharingdatatochild works!</p>
+EMP NAME = {{empname}}
+
+app.component.html
+<app-sharingdata></app-sharingdata>
+
+ContentChild
+-----------------
+The "contentchild" represents an element, which is a child of the content of the component.
+contentchild is used to access an element, that is present in the content of the component.
+contentchild can contain a child element of a specific type (class).
+contentchild is used to access properties / methods of the child.
+
+steps:
+	Import "ContentChild":
+	import { ContentChild } from "@angular/core";
+	
+	Create ContentChild Property:
+	class parentcomponent
+	{
+		@ContentChild(classname) propertyname:classname;
+		....
+	}
+
+	Access properties / methods of the element, using ContentChild's property:
+
+	this.propertyname.property
+	this.propertyname.method()
+
+app.component.html
+<app-sharingdata>
+    <app-sharingdatatochild></app-sharingdatatochild>
+</app-sharingdata>
+
+sharingdata.component.ts
+
+import { Component, ContentChild, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { SharingdatatochildComponent } from '../sharingdatatochild/sharingdatatochild.component';
+
+@Component({
+  selector: 'app-sharingdata',
+  templateUrl: './sharingdata.component.html',
+  styleUrls: ['./sharingdata.component.css']
+})
+export class SharingdataComponent implements OnInit {
+
+  @ContentChild(SharingdatatochildComponent)
+  emp!: SharingdatatochildComponent;
+
+
+  constructor() { }
+
+  ngOnInit(): void {
+
+  }
+  change_data()
+  {
+    console.log(this.emp.empname);
+    this.emp.empname="Sita";
+    console.log(this.emp.empname);
+   }
+}
+
+sharingdata.component.html
+
+<ng-content></ng-content>
+<input type="button" (click)="change_data()" value="Change Child Data"/>
+
+sharingdatatochild.component.ts
+
+import { Component, Input, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-sharingdatatochild',
+  templateUrl: './sharingdatatochild.component.html',
+  styleUrls: ['./sharingdatatochild.component.css']
+})
+export class SharingdatatochildComponent implements OnInit {
+
+  empname: string="Rama";
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+sharingdatatochild.component.html
+
+<p>sharingdatatochild works!</p>
+EMP NAME = {{empname}}
+
+ContentChildren:-
+---------------------
+The ContentChildren represents a set of elements of specific type, which is a child of the content of the component. 
+ContentChildren is used to access elements, that is present in the content of the component.
+ContentChildren is used to access properties / methods of the children.
+
+Steps:
+	Import "ContentChildren" and "QueryList":
+	import {ContentChildren,QueryList} from "@angular/core";
+
+	Create Content Children Property:
+	class parentcomponent
+	{
+		@ContentChildren(classname) propertyname:QueryList<classname>;
+		...
+	}
+
+	Access properties / methods of the child element, using ContentChildren's property:
+	var array=this.propertyname.toArray();
+	array[index].property
+	array[index].method()	
+
+
+app.component.html
+
+<app-sharingdata>
+    <app-sharingdatatochild></app-sharingdatatochild>
+    <app-sharingdatatochild></app-sharingdatatochild>
+    <app-sharingdatatochild></app-sharingdatatochild>
+</app-sharingdata>
+
+sharingdata.component.ts
+
+import { Component, ContentChild, ContentChildren, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { SharingdatatochildComponent } from '../sharingdatatochild/sharingdatatochild.component';
+
+@Component({
+  selector: 'app-sharingdata',
+  templateUrl: './sharingdata.component.html',
+  styleUrls: ['./sharingdata.component.css']
+})
+export class SharingdataComponent implements OnInit {
+  //@ViewChild(SharingdatatochildComponent)
+  //emp!: SharingdatatochildComponent;
+
+  //@ViewChildren(classname) propertyname:QueryList<classname>;
+  // @ViewChildren(SharingdatatochildComponent)
+  // emp!:QueryList<SharingdatatochildComponent>;
+  // i:number=0;  
+
+  // @ContentChild(SharingdatatochildComponent)
+  // emp!: SharingdatatochildComponent;
+
+  @ContentChildren(SharingdatatochildComponent)
+  emp!:QueryList<SharingdatatochildComponent>;
+  i:number=0;  
+
+  constructor() { }
+
+  ngOnInit(): void {
+
+  }
+  change_data()
+  {
+    // console.log(this.emp.empname);
+    // this.emp.empname="Sita";
+    // console.log(this.emp.empname);
+ 
+
+    var array=this.emp.toArray();
+  	//array[0].empname="Sairam";    
+    for(;this.i<array.length;this.i++)
+      array[this.i].empname="SitaRam";
+  }
+}
+
+sharingdata.component.html
+
+<ng-content></ng-content>
+<input type="button" (click)="change_data()" value="Change Child Data"/>
+
+
+sharingdatatochild.component.ts
+
+import { Component, Input, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-sharingdatatochild',
+  templateUrl: './sharingdatatochild.component.html',
+  styleUrls: ['./sharingdatatochild.component.css']
+})
+export class SharingdatatochildComponent implements OnInit {
+
+  empname: string="Rama";
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+sharingdatatochild.component.html
+
+<p>sharingdatatochild works!</p>
+EMP NAME = {{empname}}
+
+
+Reference Names:
+-----------------------
+Reference Names are used to access specific instance of the element in the template or content.
+You can create the reference name by writing "#" and followed by reference name in the template.
+You can access the element by specifying its reference name in the @ViewChild or @ContentChild decorator.
+Syntax:
+	Create reference name:
+	<tag #referencename></tag>
+		
+	Access the element
+	class parentcomponent
+	{
+	@ViewChild("referencename") propertyname:classname;
+	@ContentChild("referencename") propertyname:classname;		
+	....
+	}
+
+	Access properties / methods of the child element
+	this.propertyname.property
+	this.propertyname.method()
+
+app.component.html
+
+<app-sharingdata>    
+</app-sharingdata>
+
+sharingdata.component.ts
+
+import { Component, ContentChild, ContentChildren, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { SharingdatatochildComponent } from '../sharingdatatochild/sharingdatatochild.component';
+
+@Component({
+  selector: 'app-sharingdata',
+  templateUrl: './sharingdata.component.html',
+  styleUrls: ['./sharingdata.component.css']
+})
+export class SharingdataComponent implements OnInit {
+
+  @ViewChild("h") 
+emp!:SharingdatatochildComponent;
+	
+  constructor() { }
+
+  ngOnInit(): void {
+
+  }
+  change_data()
+  {
+    console.log(this.emp.empname);
+    this.emp.empname="Sita";
+    console.log(this.emp.empname);
+ 
+  }
+}
+
+sharingdata.component.html
+
+<p>sharingdata works!</p>
+
+ <app-sharingdatatochild>
+</app-sharingdatatochild><br/>
+
+<app-sharingdatatochild #h>
+</app-sharingdatatochild><br/>
+
+<app-sharingdatatochild>
+</app-sharingdatatochild><br/> 
+
+<input type="button" (click)="change_data()" value="Change Child Data"/>
+
+sharingdatatochild.component.ts
+
+import { Component, Input, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-sharingdatatochild',
+  templateUrl: './sharingdatatochild.component.html',
+  styleUrls: ['./sharingdatatochild.component.css']
+})
+export class SharingdatatochildComponent implements OnInit {
+
+  empname: string="Rama";
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+}
+
+sharingdatatochild.component.html
+
+<p>sharingdatatochild works!</p>
+EMP NAME = {{empname}}
+
+ElementRef
+---------------
+	ElementRef represents a specific normal tag (not a component) in the template / content.
+	You can create the reference by writing # and followed by reference name in the template.
+	You can access the element by specifying its reference name in the @ViewChild or 	@ContentChild decorator.
+	
+	Syntax: 
+	Create reference name:
+	<tag #referencename></tag>
+	
+	Access the element:
+	class parentcomponent
+	{
+		@ViewChild("referencename") propertyname: ElementRef;
+		@ContentChild("referencename") propertyname: ElementRef;
+		.....
+	}
+
+	Access properties / methods of the child element:
+	this.propertyname.property
+	this.proertyname.method
+
+sharingdata.component.ts
+----------------------------------
+import { Component, ContentChild, ContentChildren, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+
+@Component({
+  selector: 'app-sharingdata',
+  templateUrl: './sharingdata.component.html',
+  styleUrls: ['./sharingdata.component.css']
+})
+export class SharingdataComponent implements OnInit {
+
+  @ViewChild("h") p!:ElementRef;
+  constructor() { }
+
+  ngOnInit(): void {
+
+  }
+  change_data()
+  {
+     this.p.nativeElement.innerHTML="Sairam";
+  }
+}
+
+sharingdata.component.html
+
+<input type="button" (click)="change_data()" value="Change Child Data"/>
+<div #h>Hi</div>
+
+Life Cycle Hooks
+--------------------
+Component has a life cycle, which is managed by Angular.
+Angular creates it, renders it, creates and renders its children, checks it when its properties changed, and destroys it before removing it from the DOM.
+Angular offers lifecycle hooks that provide visibility into these key moments and the ability to act when they occur.
+The life cycle events will execute automatically at different stages, while executing the component.
+
+First Run:-
+-----------
+	1. Component Object:-
+	---------------------------
+	First, an object will be created for the component class. That means, the properties and methods 	of the component class, will be stored in the component object. 
+	
+	2. Constructor:-
+	-------------------
+	The Constructor of component class will be executed. Use the constructor, to set default values 	to any properties of the component, inject services into the component.
+
+	3. OnChanges.ngOnChanges:-
+	-------------------------------------
+	ngOnChanges method of OnChanges interface will be executed. This method executes when a 	new object is received with the new values of the input properties and just before a moment of 	assigning those new values into the respective input properties of the component. This method 	executes, only if the component has input properties.
+
+	4. OnInit.ngOnInit:-
+	------------------------
+	ngOnInit method of "OnInit" interface will be executed. Use this method to call services to get 	data from database or any other data source.
+
+	5. DoCheck.ngDoCheck:-
+	------------------------------
+	ngDoCheck method of DoCheck interface will execute. This method executes when an event 	occurs, such as clickingm typing some key in the keyboard etc. Use this method to identify 	whether the change detection process occurs or not.
+
+	6. AfterContentInit.ngAfterContentInit():
+	----------------------------------------------------
+	ngAfterContentInit method of AfterContentInit interface will execute. This method executes 	after initializing the content of the component, which is passed while invoking the component. 	Use this method to set the properties of content children.
+	
+	7. AfterContentChecked.ngAfterContentChecked():
+	----------------------------------------------------------------
+	ngAfterContentChecked method of AfterContentChecked interface will execute. This method 	executes after change detection process of the content is completed. Use this method to check 	any properties of the content children, whether those are having specific values or not.
+	
+	8. AfterViewInit.ngAfterViewInit():
+	--------------------------------------------
+	ngAfterViewInit method AfterViewInit interface will execute. This method executes after 	initializing the view (template) of the component. Use this method to set the properties of view 	children.
+
+	9. AfterViewChecked.ngAfterViewChecked():
+	---------------------------------------------------------
+	ngAfterViewChecked method AfterViewInit interface will execute. This method executes after 	"change detection" process of view is completed. Use this method to check any properties of 	the view children, whether those are having specific values or not.
+
+	On an event occurs
+	------------------------
+	1. DoCheck.ngDoCheck()
+	2. AfterContentChecked.ngAfterContentChecked()
+	3. AfterViewChecked.ngAfterViewChecked()
+
+	On deleting the component:
+	-----------------------------------
+	OnDestroy.ngOnDestroy(): This method executes when the component is deleted from the 	memory (when we close the web page in the browser).
+
+	Steps to handle event
+	----------------------------
+	1. Import the interface
+	import { interfacename } from "@angular/core";
+	
+	2. Implement the interface
+	export class componentclassname implements interfacename
+	{
+	}
+
+	3. Create the method:
+	methodname()
+	{
+	//code here
+	}
+
+	app.component.ts
+	-----------------------
+import { Component,OnInit,DoCheck,OnChanges,AfterContentInit,AfterContentChecked,AfterViewInit,AfterViewChecked,OnDestroy } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit, DoCheck,OnChanges,AfterContentInit,AfterContentChecked,AfterViewInit,AfterViewChecked,OnDestroy  {
+  title = 'multiplemodules';
+  constructor() {
+    console.log("This is Constructor");
+   }
+
+  ngOnInit(): void {
+    console.log("ngOnInit is Working");
+  }
+  ngDoCheck()
+  {
+    console.log("ngDoCheck is Working");
+  }
+  ngOnChanges(){
+    console.log("ngOnChanges is Working");
+  }
+ngAfterContentInit()
+{
+  console.log("ngAfterContentInit is Working");
+}
+ngAfterContentChecked()
+{
+  console.log("ngAfterContentChecked is Working");
+}
+ngAfterViewInit()
+{
+  console.log("ngAfterViewInit is Working");
+}
+ngAfterViewChecked()
+{
+  console.log("ngAfterViewChecked is Working");
+}
+ngOnDestroy()
+{
+  console.log("ngOnDestroy is Working");
+}
+}
+
+
+
+
+
 
 
 
