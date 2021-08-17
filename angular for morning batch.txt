@@ -1781,14 +1781,547 @@ ngOnDestroy()
 }
 }
 
+Services
+-----------
+The service is a class contains re-usable code (business logic, validations, calculations etc). Which can be called in one or more components. If you place the re-usable set of properties and methods as a service class, it can be called from any component or any other service in the entire application.
+
+We must decorate the service class with @Injectable() decorator, to make the service accessible from any other compoent. You can import "@Injectable" decorator from "@angular/core" package.
+
+We must use "@Inject()" decorator, to request angular to create an object for the service class. Then the angular framework will automatically creates an object for the service class and passes the object as argument for your component's constructor. You can receive it into a reference variable in the constructor.
+You can use "@Inject" only in the constructor of component. To make the reference variable as member of the component class, add "private" or "public" keyword as left side of the reference variable in the constructor.
+In realtime, all the CRUD operations (AJAX calls) are created in the service, the same is called in the component class, whenever required.
+
+Steps to handle event:-
+----------------------------
+Create Service
+------------------
+import { Injectable } from "@angular/core";
+@Injectable()
+class Serviceclassname
+{
+methods here
+}
+
+Add service as provider in the component
+----------------------------------------------------
+@Component({...,providerss:[Serviceclassname]})
+class ComponentClassname
+{
+}
+
+(or) Add service as provider in the module
+----------------------------------------------------
+@NgModule({providers: [Serviceclassname]})
+class ModuleClassname
+{
+}
+
+Get the instance of service using dependency injection:
+---------------------------------------------------------------------
+import { Inject } from "@angular/core";
+@Component({....})
+class componentclassname
+{
+	constructor(@Inject(Serviceclassname) variable:Serviceclassname)
+	{
+	}
+}
+
+Services- Example
+-----------------------
+
+ng g cl user
+
+export class User {
+    username!:string;
+    password!:string;
+    constructor(uname:string,pword:string)
+    {
+        this.username=uname;
+        this.password=pword;
+    }
+}
+
+ng g s login
+
+import { StringMap } from '@angular/compiler/src/compiler_facade_interface';
+import { Injectable } from '@angular/core';
+import { User } from './user';
+@Injectable({
+  providedIn: 'root'
+})
+export class LoginService {
+user:User[]=[
+new User("sai","sai"),
+new User("sita","ram"),
+new User("Durga","matha")
+];
+c:number=0;
+  constructor() { }
+compareunpw(un:string,pw:string)
+{
+for(var i=0;i<this.user.length;i++)
+{
+  if(this.user[i].username==un && this.user[i].password==pw)
+    this.c++;
+}
+if(this.c==1)
+return true;
+else
+return false;
+}
+}
+
+app.module.ts
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+					import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+						import { LoginService } from './login.service';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+   						 FormsModule
+  ],
+						  providers: [LoginService],
+  bootstrap: [AppComponent]
+})
+
+export class AppModule { }
+
+App.component.ts
+-------------------------
+import { Component, Inject } from '@angular/core';
+import { LoginService } from './login.service';
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'project1';
+  username!:string;
+  password!:string;
+  msg:string="";
+  constructor(@Inject(LoginService) public ls:LoginService){
+  }
+  do()
+  {
+    if(this.ls.compareunpw(this.username,this.password)==true)
+        //this.msg="Login Success";
+        console.log("Login Success");
+      else
+        //this.msg="Login Failed";
+        console.log("Login Failed");
+  }
+}
+
+App.component.html
+
+<table>
+    <tr>
+        <th colspan="2">LOGIN PAGE</th>
+    </tr>
+    <tr>
+        <td>User Name:</td>
+        <td><input type="text" id="username" [(ngModel)]="username" /></td>
+    </tr>
+    <tr>
+        <td>Pass Word:</td>
+        <td><input type="password" id="password" [(ngModel)]="password" /></td>
+    </tr>
+    <tr>
+        <td colspan="2"><input type="button" value="Sign In" (click)="do()" /></td>
+    </tr>
+</table>
+<div [innerHTML]="msg"></div>
+
+Sharing Data using Services
+-----------------------------------
+We can't share data among sibling components directly, but we can do it by using service.
+We can set data from component1 to service. then the component2 can access data from service.
+
+ng g c India
+
+ng g c Usa
+
+ng g s Population
+
+app.module.ts
+-------------------
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { PopulationService } from './population.service';
+
+import { AppComponent } from './app.component';
+import { IndiaComponent } from './india/india.component';
+import { UsaComponent } from './usa/usa.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    IndiaComponent,
+    UsaComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [PopulationService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
 
 
+app.component.html
+---------------------------
+<div>
+  <h2>Sharing Data Using Services</h2>
+  <app-india></app-india>
+  <app-usa></app-usa>
+</div>
+
+population.service.ts
+--------------------------
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PopulationService {
+  IndiaPopulation:number;
+  constructor() { }
+}
+
+india.component.ts
+-------------------------
+import { Component, Inject, OnInit } from '@angular/core';
+import { PopulationService } from '../population.service';
+
+@Component({
+  selector: 'app-india',
+  templateUrl: './india.component.html',
+  styleUrls: ['./india.component.css']
+})
+export class IndiaComponent implements OnInit {
+  
+  population:number=1.32;
+  
+  constructor(@Inject(PopulationService) private ps:PopulationService) 
+  { 
+    this.ps.IndiaPopulation=this.population;
+  }
+
+  ngOnInit(): void {
+  }
+
+}
+
+usa.component.ts
+-----------------------
+import { Component, Inject, OnInit } from '@angular/core';
+import { PopulationService } from '../population.service';
+
+@Component({
+  selector: 'app-usa',
+  templateUrl: './usa.component.html',
+  styleUrls: ['./usa.component.css']
+})
+export class UsaComponent implements OnInit {
+
+  ip:number;
+  constructor(@Inject(PopulationService)private ps:PopulationService)
+   {
+    this.ip=this.ps.IndiaPopulation;
+   }
+
+  ngOnInit(): void {
+  }
+
+}
+
+usa.component.html
+--------------------------
+<h2>India Population: {{ip}} billion.</h2>
+
+Custom Directives
+-----------------------
+Directive is a class, that can be invoked (called) through an attribute of a tag in the template.
+Directive provides additional functionality for the html element.
+For example, "ngIf" directive checks the condition, displays the element if the condition is true, and removes the element if the condition is false.
+The "ElementRef" class represents the element, in which the directive is invoked.
+Directive can receive values from the element using @Input() decorator.
+Directive can add events to the element by using @HostListener() decorator.
+We can communicate between the component to the directive, using @ViewChild decorator in the component.
+
+Steps for working with Directives
+-----------------------------------------
+Create directive:
+	@Directive({selector: "[directiveattributename]"})
+	class directiveclassname
+	{
+		constructor(@Inject(ElementRef) referencename:ElementRef)
+		{
+		}	
+	}
+	@Input() directiveproperty: datatype;
+	
+	@HostListener("eventname")
+	methodname()
+	{
+	}
+	}
+
+Add directive to the module:
+	@NgModule({...,declarations:[...,directiveclassname]})	
+	class moduleclassname
+	{
+	}
+
+Invoke directive from html tag:
+	<tag directiveattributename directiveproperty="value"></tag>
+
+ng g d Sample
+
+sample.directive.ts
+------------------------
+import { Directive,Inject,ElementRef } from '@angular/core';
+
+@Directive({
+  selector: '[appSample]'
+})
+export class SampleDirective  {
+
+  constructor(@Inject(ElementRef) private element:ElementRef) 
+  { 
+    this.element.nativeElement.style.border="1px solid blue";
+  }
+}
+
+app.component.html
+---------------------------
+<div>
+  <h4>Custom Directives</h4>
+  <p appSample>Welcome to Custom Directives</p>
+</div>
+
+Pipes
+-------
+Pipes transforms the value into user-expected format.
+Pipes are invoked in expressions (interpollation binding), through pipe (|) symbol. 
+Syntax: {{property | pipe}}}
+
+actual value -> pipe -> output value
+
+List of Built-in pipes
+-------------------------
+1. uppercase
+2. lowercase
+3. slice
+4. number
+5. currency
+6. percent
+7. date
+8. json
 
 
+app.component.ts
+------------------------
+import { Component } from '@angular/core';
 
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'pipesexample';
+  city:string="Nellore";
+  salary:number=12000;
+  n:number=0.72;
+  person:object={"firstname":"rama","lastname":"sita"};
+  dt:Date=new Date();
+}
 
+app.component.html
+---------------------------
+<div class="class1">
+  <h2>Pipes</h2>
 
+  City: {{city}}<br/>
+  Upper Case City is : {{city}}<br/>
+  Lower Case City is : {{city}}<br/>
+  Slice: {{city | slice:2:6}}<br/>
+<hr/>
+  Salary: {{salary}}<br/>
+  Salary (.2) :  {{salary|number:".2"}}<br/>
+Salary Currency: {{salary | currency:"INR"}}<br/>
+Salary Currency: {{salary | currency:"INR"}}<br/>
+Salary Currency: {{salary | currency:"USD"}}<br/>
+Salary Currency: {{salary | currency:"EUR"}}<br/>
+Salary Currency: {{salary | currency:"GBP"}}<br/>
+<hr/>
+n: {{n}}<br/>
+n: {{n | percent}}<br/>
+<hr/>
+  Person: {{person}}<br/>
+  JSON: {{person | json}}<br/>
+  <hr/>
+  Current Time: {{dt}}<br/>
+  Short Date: {{dt|date:"shortDate"}}<br/>
+  Medium Date: {{dt|date: "mediumDate"}}<br/>
+  Long Date: {{dt|date: "longDate"}}<br/>
+  Full Date: {{dt|date:"fullDate"}}<br/>
+  Short Time: {{dt|date:"shortTime"}}<br/>
+  Long Time: {{dt|date:'mediumTime'}}<br/>
+  Short: {{dt|date:"short"}}<br/>
+  Medium: {{dt|date:"medium"}}<br/>
+  d/M/y: {{dt|date:"d/M/y"}}<br/>
+  y-M-d: {{dt|date:"y-M-d"}}<br/>
+  h:m:s: {{dt|date:"h:m:s"}}<br/>
+  H:m: {{dt|date:"H:m"}}<br/>
+  a: {{dt|date:"a"}}<br/>
+  EEE: {{dt|date:"EEE"}}<br/>
+  EEEE: {{dt|date:"EEEE"}}<br/>
+  MMM: {{dt|date:"MMM"}}<br/>
+  MMMM: {{dt|date:"MMMM"}}<br/>
+  Z: {{dt| date:"Z"}}
+</div>
 
+Custom Pipes:
+Custom Pipes are the User-defined pipes.
+Custom pipe must be a class that has @Pipe() decorator and implments "PipeTransform" interface.
+The "PipeTransform" interface has "transform" method, which must be implemented in your pipe class.
+The "transform" method will be executed automatically, when the pipe is invoked in the expression (through pipe(|) symbol).
+The "transform" method receive the input value as argument, do process, and return the result value, which will be displayed in the output.
+Syntax to call pipe: {{ property|pipe }}
+
+actual value -> pipe -> output value
+
+Syntax of Custom pipe
+-----------------------------
+
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'namehere'
+})
+export class customPipeclassname implements PipeTransform {
+
+  transform(value: unknown, ...args: unknown[]): unknown {
+    return null;
+  }
+
+}
+
+Add Pipe to the module:
+------------------------------
+@NgModule({...,declarations: [custompipeclassname],...})
+class moduleclassname
+{
+....
+}
+
+Invoke the pipe in the template:
+
+{{componentproperty|pipename}}
+
+ng g p Square
+
+square.pipe.ts
+------------------
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'square'
+})
+export class SquarePipe implements PipeTransform {
+
+  transform(num: number): number {
+    return num*num;
+  }
+
+}
+
+app.component.html
+---------------------------
+Square of 5 is {{5 | square}}
+
+Forms and Validations
+----------------------------
+Forms are 2 types
+
+1. Template Driven Forms
+	Template Driven Forms are suitable for development of simple forms with limited no.of fileds and 	simple validations.
+	In these forms, each field is represented as a property in the component class.
+	Validations rules are defined in the template, using "html 5" attributes. Validation messages are 
+	displayed using "validation properties" of angular.
+	"FormsModule" should be imported from "@angular/forms" package.
+
+	HTML5 attributes for validations:
+		required="required"	:	Field is mandatory
+		minlength="n"	:	Minimum no.of characters
+		pattern="reg exp"	:	Regular expression
+
+	Validation Properties:
+		untouched
+			true	:	Field is not focused.
+			false	:	Field is focused.
+		
+		touched
+			true	:	Field is focused.
+			false	:	Field is not focused.
+
+		pristine
+			true	:	Field is not modified by the user.
+			false	:	Field is modified by the user.
+
+		dirty
+			true	:	Field is modified by the user.
+			false	:	Field is not modified by the user.
+	
+		valid
+			true	:	Field value is valid.
+			false	:	Field value is invalid.
+		
+		invalid	
+			true	:	Field value is invalid.	
+			false	:	Field value is valid.		
+			
+		errors		:	Represents the list of errors of the field.
+			required	:	true/false
+			minlength:	true/false
+			pattern	:	true/false
+			number	:	true/false
+			email	:	true/false
+			url	:	true/false
+
+SNo.	Description			Regular Expression
+1.	Digits only			^[0-9]*$
+2.	Alphabets only			^[a-zA-Z]*$
+3.	Indian Mobile Number		^[6789]\d{9}$
+4. 	Email			
+5. 	Usernames: Alphabets, Digits and Hyphens only.	([A-Za-z0-9-]+)
+6. 	Passwords: 6 to 15 characters;			((?=.*\d)(?=.*[a-z])(?=.*[A-Z].{6,15})
+	atleast one uppercase letter, one lowercase letter
+	and one digit. 
+
+	Create a Simple Template Driven Form with form validations.
+	
+	First Name
+	Last Name
+	Email
+	Amount
+	Gender
+	Country
+
+ng g c templatedriven
 
 
 
