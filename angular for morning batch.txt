@@ -2322,6 +2322,1022 @@ SNo.	Description			Regular Expression
 	Country
 
 ng g c templatedriven
+app.module.ts
+
+import { FormsModule } from '@angular/forms';
+imports:
+[
+FormsModule
+]
+
+app.component.ts
+
+	firstname:string=null;
+	lastname:string=null;
+	email:string=null;
+	amount:string=null;
+	gender:string=null;
+	country:string="";
+	msg:string=null;
+	onRegisterClick(f)
+	{
+		if(f.valid)
+		{
+			this.msg="First Name : "+this.firstname+"<br/> Last Name : "+this.lastname+"<br/> Email : "+this.email+"<br/>Amount : "+this.amount+"<br/> Gender : "+this.gender+"<br/> Country : "+this.country;	
+		}		
+		else
+		this.msg="invalid";
+	}		
+
+app.component.html
+<div class="class1">
+<h4>Template Driven Forms</h4>
+<form #myform="ngForm">
+FirstName:
+<input type="text" [(ngModel)]="firstname" name="firstname" required minlength="3" maxlength="20" pattern="^[a-zA-Z]*$" #control1="ngModel"/>
+<span class="error" *ngIf="control1.touched && control1.invalid && control1.errors.required"/>First Name Cannot be blank.</span>
+<span class="error" *ngIf="control1.touched && control1.invalid && control1.errors.minlength">Min: 3 characters </span>
+<span class="error" *ngIf="control1.touched && control1.invalid && control1.errors.pattern">Alphabets only allowed</span>
+<br/>
+LastName:
+<input type="text" [(ngModel)]="lastname" name="lastname" required minlength="3" maxlength="20" pattern="^[a-zA-Z]*$" #control2="ngModel"/>
+<span class="error" *ngIf="control2.touched && control2.invalid && control2.errors.required"/>Last Name Cannot be blank.</span>
+<span class="error" *ngIf="control2.touched && control2.invalid && control2.errors.minlength">Min: 3 characters </span>
+<span class="error" *ngIf="control2.touched && control2.invalid && control2.errors.pattern">Alphabets only allowed</span>
+<br/>
+Email:
+<input type="text" [(ngModel)]="email" name="email" required pattern="" #control3="ngModel"/>
+<span class="error" *ngIf="control3.touched && control3.invalid && control3.errors.required"/>Email Cannot be blank.</span>
+<span class="error" *ngIf="control3.touched && control2.invalid && control2.errors.pattern">Email is not  valid</span>
+<br/>
+Amount:
+<input type="text" [(ngModel)]="amount" name="amount" required pattern="^[0-9]*$" #control4="ngModel"/>
+<span class="error" *ngIf="control4.touched && control4.invalid && control4.errors.required"/>Amount  Cannot be blank.</span>
+<span class="error" *ngIf="control4.touched && control4.invalid && control4.errors.pattern">Alphabets not  allowed</span>
+<br/>
+Gender:
+<input type="radio" [(ngModel)]="gender" name="gender" value="male" required #control5="ngModel"/>
+<input type="radio" [(ngModel)]="gender" name="gender" value="female" required #control5="ngModel"/>
+<span class="error" *ngIf="control5.touched && control5.invalid && control5.errors.required"/>Please select gender.</span>
+<br/>
+Country:
+	<select [(ngModel)]="country" name="country" required #control6="ngModel">
+	<option>..Select..</option>
+	<option>India</option>
+	<option>USA</option>
+	<option>UK</option>
+	<option>JAPAN</option>
+	</select>
+<br/>
+<input type="submit" value="Register" (click)="onRegisterClick(myform)"/><br/>
+<div [innerHTML]="msg"></div>
+</form>
+</div>
+
+styles.css
+input.ng-invalid.ng-touched
+{
+border:2px solid red;
+}
+input.ng-valid.ng-touched
+{
+border:2px solid green;
+}
+.error
+{
+color:red;
+}
+
+Reactive Forms ( or ) Model Driven Forms
+---------------------------------------------------
+Reactive Forms (or) Model Driven Forms are new type of forms in angular, which are suitable for creating large forms with many fields and complex validations.
+In these forms, each field is represented as "FormControl" and group of controls is represented as "FormGroup".
+ReactiveFromsModule should be imported from "@angular/forms" package.
+Validation rules are defined in the component using "Validators" object of angular and validation messages are displayed in the template using "validation properties" of angular.
+
+Validations in Reactive Forms:
+	Validators.required		:	Field is mandatory.
+	Validators.minLength	:	Minimum no.of characters.
+	Validators.maxLength	:	Maximum no.of characters.
+	Validators.pattern		:	Regular Expression
+
+Validation Properties:
+	untouched	
+		true	:	Field is not focused.
+		false	:	Field is focused.
+	touched
+		true	:	Field is focused.	
+		false	:	Field is not focused.
+	pristine
+		true	:	Field is not modified by the user.
+		false	:	Field is modified by the user.
+	dirty	
+		true	:	Field is modified by the user.
+		false	:	Field is not modified by the user.
+	valid	
+		true	:	Field value is valid.
+		false	:	Field value is not valid.
+	invalid
+		true	:	Field value is not valid.
+		false	:	Field value is valid.
+
+	errors	:	Represents the list of errors of the field.
+		required		:	true/false
+		minlength	:	true/false
+		maxlength	:	true/false
+		pattern		:	true/false
+		
+
+
+app.module.ts
+	import { ReactiveFormsModule } from '@angular/forms'; 
+
+	imports:[ReactiveFormsModule]
+
+app.component.ts
+
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+
+msg:string="";
+myform:FormGroup;
+constructor()
+{
+	this.myform=new FormGroup({
+		firstname:new FormControl("",[Validators.required,Validators.minLength(3),Validators.maxLength(20),Validators.pattern("^[a-zA-Z]*$")]),
+		lastname:new FormControl("",[Validators.required,Validators.minLength(3),Validators.maxLength(20),Validators.pattern("^[a-zA-Z]*$")]),
+		email:new FormControl("",[Validators.required,Validators.pattern("")]),
+		amount:new FromControl("",[Validators.required,Validators.pattern("^[0-9]*$")]),
+		gender:new FormControl("",[Validators.required]),
+		country:new FormControl("",[Validators.required])
+	});
+}
+
+	onRegisterClick()
+	{
+		if(this.myform.valid)
+		{
+			this.msg="First Name : "+this.myform.controls.firstname.value+"<br/> Last Name : "+this.myform.controls.lastname.value+"<br/> Email : "+this.myform.controls.email.value+"<br/>Amount : "+this.myform.controls.amount.value+"<br/> Gender : "+this.myform.controls.gender.value+"<br/> Country : "+this.myform.controls.country.value;	
+		}		
+		else
+		this.msg="invalid";
+	}		
+
+
+
+app.component.html
+
+<div class="class1">
+<h4>Reactive Forms</h4>
+<form [formGroup]="myform">
+FirstName:
+<input type="text" formControlName="firstname"/>
+<span class="error" *ngIf="myform.controls.firstname.touched && myform.controls.firstname.invalid && myform.controls.firstname.errors.required"/>First Name Cannot be blank.</span>
+<span class="error" *ngIf="myform.controls.firstname.touched && myform.controls.firstname.invalid && myform.controls.firstname.errors.minlength">Min: 3 characters </span>
+<span class="error" *ngIf="myform.controls.firstname.touched && control1.invalid && myform.controls.firstname.errors.pattern">Alphabets only allowed</span>
+<br/>
+LastName:
+<input type="text" formControlName="lastname"/>
+<span class="error" *ngIf="myform.controls.lastname.touched && myform.controls.lastname.invalid && myform.controls.lastname.errors.required"/>Last Name Cannot be blank.</span>
+<span class="error" *ngIf="myform.controls.lastname.touched && myform.controls.lastname.invalid && myform.controls.lastname.errors.minlength">Min: 3 characters </span>
+<span class="error" *ngIf="myform.controls.lastname.touched && myform.controls.lastname.invalid && myform.controls.lastname.errors.pattern">Alphabets only allowed</span>
+<br/>
+Email:
+<input type="text" formControlName="email"/>
+<span class="error" *ngIf="myform.controls.email.touched && myform.controls.email.invalid && myform.controls.email.errors.required"/>Email Cannot be blank.</span>
+<span class="error" *ngIf="myform.controls.email.touched && myform.controls.email.invalid && myform.controls.email.errors.pattern">Email is not  valid</span>
+<br/>
+Amount:
+<input type="text" formControlName="amount"/>
+<span class="error" *ngIf="myform.controls.amount.touched && myform.controls.amount.invalid && myform.controls.amount.errors.required"/>Amount  Cannot be blank.</span>
+<span class="error" *ngIf="myform.controls.amount.touched && myform.controls.amount.invalid && myform.controls.amount.errors.pattern">Alphabets not  allowed</span>
+<br/>
+Gender:
+<input type="radio" formControlName="gender" value="male"/>
+<input type="radio" formControlName="gender" value="female"/>
+<span class="error" *ngIf="myform.controls.gender.touched && myform.controls.gender.invalid && myform.controls.gender.errors.required"/>Please select gender.</span>
+<br/>
+Country:
+	<select formControlName="country">
+	<option>..Select..</option>
+	<option>India</option>
+	<option>USA</option>
+	<option>UK</option>
+	<option>JAPAN</option>
+	</select>
+<span class="error" *ngIf="myform.controls.country.touched && myform.controls.country.invalid && myform.controls.country.errors.required"/>Please select gender.</span>	
+<br/>
+<input type="submit" value="Register" (click)="onRegisterClick()"/><br/>
+<div [innerHTML]="msg"></div>
+</form>
+</div>
+
+styles.css
+input.ng-invalid.ng-touched
+{
+border:2px solid red;
+}
+input.ng-valid.ng-touched
+{
+border:2px solid green;
+}
+.error
+{
+color:red;
+}
+
+Routing
+----------
+The routing concept is used to create page navigation in angular application.
+Routing includes the process of mapping between the route (url) and corresponding component. 
+
+The @angular/router package provides essential API to create routing.
+
+steps:
+
+import  { Routes }  from "@angular/router";
+
+Create routes:
+	var variable1:Routes:[
+		{path:"path here",component:ComponentClassName},
+		{path:"path here",component:ComponentClassName},
+		{path:"path here",component:ComponentClassName},
+		{path:"path here",component:ComponentClassName},
+		...
+	];
+
+Import RouterModule from "@angular/router" package:
+import { RouterModule } from "@angular/router";
+ 
+Create hyperlink to route:
+	<a routerLink="/path">Link Text</a>
+
+Create Placeholder to display route content:
+	<router-outlet>
+	</router-outlet>
+
+Ex:
+ng g c Home
+ng g c About
+ng g c Contact
+
+app-routing.module.ts
+import  { Routes,RouterModule }  from "@angular/router";
+
+var myroutes:Routes=[
+	{path:"",component:HomeComponent},
+	{path:"home",component:HomeComponent},
+	{path:"about",component:AboutComponent},
+	{path:"contact",component:ContactComponent}
+];
+
+app.component.html
+<div>
+	<h4>Routing</h4>
+	<a routerLink="home">HOME</a>
+	<a routerLink="about">ABOUT US</a>
+	<a routerLink="contact">CONTACT US</a>
+	<div id="container">
+		<router-outlet>
+		</router-outlet>
+	</div>
+</div>
+
+Route Parameters
+-----------------------
+You can pass  parameters to the route.
+Route parameter is represented as ":parametername" syntax.
+You can get the value of the parameter in the component using "ActivatedRoute" service.
+
+Steps for Working with Route Parameters
+	Create parameter in the route:
+		{path:"pathname/:parametername",component:Componentclassname},
+	
+	Import the "ActivatedRoute" Service:
+	import { ActivatedRoute } from "@angular/router";
+	
+	Get the object of "ActivatedRoute" service:
+	constructor(@Inject(ActivatedRoute) private route:ActivatedRoute)
+	{
+	}
+
+	Get the value of parameter:
+	this.route.snapshot.params["parametername"]
+
+	(or) 
+	Get the value of parameter with updates:
+	this.route.params.subscribe(params=>
+	{
+		params["parametername"]
+	});
+
+
+	ng g c Products
+	ng g cl Product
+	ng g s Products
+
+
+product.ts
+export class Product
+{
+	productId:number;
+	productName:string;
+	cost:number;
+	brand:string;
+	constructor(productId:number,productName:string,cost:number,brand:string)
+	{
+		this.productId=productId;
+		this.productName=productName;
+		this.cost=cost;
+		this.brand=brand;
+	}
+}
+
+
+products.service.ts
+import { Product } from "./product";
+
+@Inejctable()
+export class ProductsService
+{
+products:Product[];
+constructor()
+{
+	this.products=[
+		new Product(100,"Samsung S8",49000,"Samsung"),
+		new Product(101,"Samsung S9",63000,"Samsung"),
+		new Product(102,"iPhone 8",69000,"Apple"),
+		new Product(103,"iPhone 10",59000,"Apple"),
+		new Product(104,"Pixel 2",42000,"Google"),
+		new Product(105,"Pixel 3",89000,"Google")
+	];
+}
+getProductsByBrand(brandName:string):Product[]
+{
+	var selectedProducts:Product[]=[];
+	for(var i=0;i<this.products.length;i++)
+	{
+		if(this.products[i].brand==brandName)
+			selectedProducts.brand(this.products[i]);
+	}
+	return selectedProducts;
+}
+}
+
+app-routing.module.ts
+
+var myroutes:Routes=[
+{path:"",component:HomeComponent},
+{path:"home",component:HomeComponent},
+{path:"about",component:AboutComponent},
+{path:"contact",component:ContactComponent},
+{path:"products/:brandname",component:ProductsComponent},
+];
+
+app.component.html
+
+<h3>Routing</h3>
+<a routerLink="home">HOME</a>
+<a routerLink="about">ABOUT</a>
+<a routerLink="contact">CONTACT</a>
+<a routerLink="products/Samsung">Samsung</a>
+<a routerLink="products/Apple">Apple</a>
+<a routerLink="products/Google">Google</a>
+
+<div id="container">
+	<router-outlet>
+	</router-outlet>
+</div>
+
+products.component.ts
+-----------------------------
+import { Product } from '../product'; 
+import { ProductsService } from '../products.service'; 
+import { ActivatedRoute} from "@angular/router";
+
+brand:string;
+matchingproducts:Product[]=[];
+constructor(@Inject(ProductsService) private prodService:ProductsService,@Inject(ActivatedRoute) private route:ActivatedRoute)
+{
+}
+}
+
+ngOnInit()
+{
+this.route.params.subscribe(params=>{
+	var selectedBrand=params["brandname"];
+	this.brand=selectedBrand;
+	this.matchingproducts=this.prodService.getProductsByBrand(selectedBrand);
+});
+}
+
+
+products.component.html
+<div>
+	<h2>Products</h2>
+	<h3>{{brand}}</h3>
+	<table border="1">
+		<tr>
+			<th>Product ID</th>
+			<th>Product NAME</th>
+			<th>Cost</th>
+			<th>Brand</th>
+		</tr>
+		<tr *ngFor="let product of matchingproducts">
+				<td>{{product.productId}}</td>
+				<td>{{product.productName}}</td>
+				<td>{{product.cost}}</td>
+				<td>{{product.brand}}</td>
+		</tr>
+	</table>
+	<a routerLink="/home">Back to Home</a>
+</div>
+
+Child Routes:
+-----------------
+Route can have child routes up to unlimited no.of nested levels.
+	Ex: "FundsTransfer" menu has "Transfer","AddPayee","ActivatePayee" etc.
+
+Steps for Working with ChildRoutes:
+	Create Child Routes:
+		{
+			{path:"parentPath",component:componentClassname,children:{
+				{path:"childpath",component:componentClassname},
+				{path:"childpath",component:componentClassname},
+				{path:"childpath",component:componentClassname},
+				.....
+			}
+		}
+
+Create hyperlink for the child route:
+	<a href="/parentpath/childpath">Link Text</a>
+
+Create router outlet for child routes (in the parent route component's template):
+<router-outlet></router-outlet>
+
+program in src zip folder
+
+Guards:-
+---------
+The Guard is a service that executes at the specified situation while angular is navigating from one route to another route.
+Angular mainly supports two types of guards:
+	CanActivate: Executes before entering into a route.
+	CanDeactivate: Executes before leaving a route.
+
+CanActivate:
+	The "CanActivate" Guard executes before entering into a route.
+	Process: User clicks on the hyperlink -> Identify the route -> CanActivate Guard -> Navigate to the 	Route -> Corresponding component.
+	This guard can be created by implementing "CanActivate" interface.
+	The "CanActivate" interface has a method called "CanActivate". This method must return a 	boolean value, which indicates whether the route can be navigated or not. If we return true, the 	route will be navigated, if we return false, the route navigation will be stopped.
+	It can receive an argument of "ActivatedRouteSnapshot" type, which represents the current 	state of the route.
+	
+Steps for Working with CanActivate:
+	Import "CanActivate" interface from "@angular/router" package:
+	import { CanActivate, ActivatedRouteSnapshot } from "@angular/router";
+
+	Create a Service that implements "CanActivate" interface:
+	class Serviceclassname implements CanActivate
+	{
+		canActivate(route:ActivatedRouteSnapshot): boolean
+		{
+			return true / false;		
+		}
+	}
+
+	Add service to the module:
+	@NgModule({..,providers:[ServiceClassname]})	
+
+	Add guard to the route:
+	{path:"path here", component:ComponentClassname,canActivate:[Serviceclassname]}
+		
+program in src zip folder
+
+CanDeactivate:
+	The "CanDeactivate" Guard executes before leaving from a route.
+	This guard can be created by implementing "CanDeactivate" interface.
+	The "CanDeactivate" interface has a method called "canDeactivate". This method must return a 	boolean value, which indicates whether the route can be leave or not. If we return "true", the 	route will be left; if we return false, the route navigation will be stopped.
+	It can receive an argument of an user-defined interface type, which represents the current 	component.
+	
+Steps for Working with CanDeactivate:
+	Import "CanDeactivate" interface from "@angular/router" package:
+	Import { CanDeactivate } from "@angular/router";
+
+	Create the interface for CanDeactive Guard:
+	interface interfacename
+	{
+		canNavigate:boolean;
+	}
+	
+	Create a Service that implements "CanDeactivate" interface:
+	class Serviceclassname implements CanDeactivate<interfacename>
+	{
+		canDeactivate(component:interfacename):boolean
+		{
+			return true / false;
+		}
+	}	
+
+	Add service to the module:
+	@NgModule({..,providers:[ServiceClassName]})
+
+	Add guard to the route:
+	{path: "path here",component:ComponentClassname,canDeactivate: [ServiceClassname]}
+
+Ex:
+ng g c Home
+ng g c About
+ng g c Contact
+ng g cl CanComponentDeactivate
+ng g s CanDeactivateGuard
+
+export interface CanComponentDeactivate
+{
+	canNavigate:boolean;
+}
+
+can-deactivate-guard.service.ts
+import { Injectable } from "@angular/core";
+import { CanDeactivate } from "@angular/router";
+import { CanComponentDeactivate } from './can-component-deactivate'; 
+
+export class CanDeactivateGuardService implements CanDeactivate<CanComponentDeactive>
+{
+canDeactivate(component:CanComponentDeactivate)
+{
+	if(component.canNaviagate==true)
+	{
+		return true;
+	}
+	else
+	{
+		if(confirm("Do You want to discard changes?"))
+			return true;
+		else
+			return false;
+	}
+}
+}
+
+app.module.ts
+providers:[CanDeactivateGuardService]
+
+app-routing.module.ts
+import  { Routes,RouterModule }  from "@angular/router";
+
+var myroutes:Routes=[
+	{path:"",component:HomeComponent},
+	{path:"home",component:HomeComponent,canDeactivate:[CanDeactivateGuardService]},
+	{path:"about",component:AboutComponent},
+	{path:"contact",component:ContactComponent}
+];
+
+app.component.html
+<div>
+	<h4>Routing</h4>
+	<a routerLink="home">HOME</a>
+	<a routerLink="about">ABOUT US</a>
+	<a routerLink="contact">CONTACT US</a>
+	<div id="container">
+		<router-outlet>
+		</router-outlet>
+	</div>
+</div>
+
+
+home.component.ts
+	firstname:string=null;
+	lastname:string=null;
+	canNavigate:boolean=true;
+	onFirstNameChange()	
+	{
+		this.canNavigate=false;
+	}	
+	onLastNameChange()
+	{
+		this.canNavigate=true;
+	}
+
+	onSave()
+	{
+		this.canNavigate=true;
+		alert("Record Saved");
+	}
+
+
+home.component.html
+	<div>
+		<h5>Home</h5>
+		FirstName: <input type="text" (change)="onFirstNameChange()"/><br/>
+		LastName: <input type="text" (change)="onLastNameChange()"/><br/>
+		<input type="submit" value="Save" (click)="onSave()"/>
+	</div>
+
+RxJs:-
+-------
+Observable and Observer 
+	Observable is a data source ( User Events, Http requests, Custom Data Source), which emits data 	packets to the observer.
+	Observer is an object that subscribes to the observable and listens to the data packets that are 	sent by observables.
+Data Flow:
+	Observable emits (sends) data to the observer. Everytime it emits data, the corresponding callback function automatically executes in observer.
+	
+Types of Callback functions in Observer:
+-------------------------------------------------
+HandleData Callback: It executes when the next data packet has been emitted by the observable.
+HandleError Callback: It executes when error emitted by the observable. If this is invoked, the observable stream ends; that means, no other callback functions are invoked further.
+HandleCompletion Callback: It executes when observable indicates steam completion. If this is invoked, the  observable stream ends; that means, no other callback functions are invoked further.
+
+Creating Observable:
+	Import "Observable"
+		import { Observable } from "rxjs";
+
+CRUD PROJECT with AJAX CALLS and RXJS
+
+ng g c employee
+
+employee.ts
+
+export class Employee {
+    id:number;
+    firstName:string;
+    lastName:string;
+    emailId:string;
+    active:boolean;
+}
+
+ng g s employee
+
+employee.service.ts
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EmployeeService {
+private baseUrl="http://localhost:3000/employee";
+
+constructor(private http:HttpClient) { }
+getEmployeeList():Observable<any>
+{
+  return this.http.get(`${this.baseUrl}`);
+}
+getEmployee(id:number):Observable<any>{
+  return this.http.get(`${this.baseUrl}/${id}`);
+}
+deleteEmployee(id:number):Observable<any>
+{
+  return this.http.delete(`${this.baseUrl}/${id}`,{responseType:'text'});
+}
+updateEmployee(id:number,value:any):Observable<Object>
+{
+  return this.http.put(`${this.baseUrl}/${id}`,value);
+}
+createEmployee(employee:Object):Observable<Object>
+{
+  return this.http.post(`${this.baseUrl}`,employee);
+}
+}
+
+app.module.ts
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { EmployeeListComponent } from './employee-list/employee-list.component';
+import { CreateEmployeeComponent } from './create-employee/create-employee.component';
+import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
+import { UpdateEmployeeComponent } from './update-employee/update-employee.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    EmployeeListComponent,
+    CreateEmployeeComponent,
+    EmployeeDetailsComponent,
+    UpdateEmployeeComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+app.component.html
+<a routerLink="employees">Employee List</a>
+<br/>
+<a routerLink="add">Add New Employee</a><br/>
+<router-outlet></router-outlet>
+
+app-routing.module.ts
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { CreateEmployeeComponent } from './create-employee/create-employee.component';
+import { EmployeeDetailsComponent } from './employee-details/employee-details.component';
+import { EmployeeListComponent } from './employee-list/employee-list.component';
+import { UpdateEmployeeComponent } from './update-employee/update-employee.component';
+
+const routes: Routes = 
+[
+  {path:'',redirectTo:'employees',pathMatch:'full'},
+  {path:'employees',component:EmployeeListComponent},
+  {path:'details/:id',component:EmployeeDetailsComponent},
+  {path:'add',component:CreateEmployeeComponent},
+  {path:'update/:id',component:UpdateEmployeeComponent}
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+employee-list.component.ts
+
+import { typeWithParameters } from '@angular/compiler/src/render3/util';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Employee } from '../employee';
+import { EmployeeService } from '../employee.service';
+
+@Component({
+  selector: 'app-employee-list',
+  templateUrl: './employee-list.component.html',
+  styleUrls: ['./employee-list.component.css']
+})
+export class EmployeeListComponent implements OnInit {
+employees:Observable<Employee[]>;
+  constructor(private empService:EmployeeService,private router:Router) 
+  { 
+  }
+
+  ngOnInit(): void {
+    this.reload();
+  }
+  reload()
+  {
+    this.employees=this.empService.getEmployeeList();
+  }
+  employeedetails(id:number)
+  {
+    this.router.navigate(['details',id]);
+  }
+  deleteemployee(id:number)
+  {
+    this.empService.deleteEmployee(id).subscribe(data=>{this.reload()},
+    error=>{console.log(error);}
+    )
+  }
+  updateemployee(id:number)
+  {
+    this.router.navigate(['update',id]);
+  }
+}
+
+employee-list.component.html
+<!-- <p>employee-list works!</p> -->
+
+<div class="panel panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>EMP ID</th>
+                <th>EMP FIRST NAME</th>
+                <th>EMP LAST NAME</th>
+                <th>EMAIL</th>
+                <th>ACTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let e of employees | async">
+                <td>{{e.id}}</td>
+                <td>{{e.firstName}}</td>
+                <td>{{e.lastName}}</td>
+                <td>{{e.emailId}}</td>
+                <td><button (click)="employeedetails(e.id)" class="btn btn-info">Details</button>
+                    <button (click)="deleteemployee(e.id)" class="btn btn-info">Delete</button>
+                    <button (click)="updateemployee(e.id)" class="btn btn-info">Update</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+update-employee.component.ts
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Employee } from '../employee';
+import { EmployeeService } from '../employee.service';
+
+@Component({
+  selector: 'app-update-employee',
+  templateUrl: './update-employee.component.html',
+  styleUrls: ['./update-employee.component.css']
+})
+export class UpdateEmployeeComponent implements OnInit {
+ id: number;
+ employee:Employee;
+  constructor(private route:ActivatedRoute,private router:Router,private employeeService:EmployeeService) 
+  { 
+  }
+  ngOnInit(): void {
+    this.employee=new Employee();
+    this.id=this.route.snapshot.params['id'];
+this.employeeService.getEmployee(this.id).subscribe(data=>{
+  this.employee=data;
+},
+error=>console.log(error));
+}
+onSubmit()
+{ 
+  this.employeeService.updateEmployee(this.id,this.employee).subscribe(
+    data => {            
+      console.log(data);      
+      this.gotoList();
+},error=>{console.log(error);});
+}
+gotoList()
+{
+  this.router.navigate(['/employees']); 
+}
+}
+
+update-employee.component.html
+
+<!-- <p>update-employee works!</p> -->
+<h3>Update Employee</h3>
+<div style="width:400px">
+    <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="name">First Name:</label>
+            <input type="text" class="form-control" id="firstName" required [(ngModel)]="employee.firstName" name="firstName">
+        </div>
+        <div class="form-group">
+            <label for="name">Last Name:</label>
+            <input type="text" class="form-control" id="lastName" required [(ngModel)]="employee.lastName" name="lastName">
+        </div>
+        <div class="form-group">
+            <label for="name">Email id:</label>
+            <input type="text" class="form-control" id="emailId" required [(ngModel)]="employee.emailId" name="emailId">
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
+
+employee-details.component.ts
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Employee } from '../employee';
+import { EmployeeService } from '../employee.service';
+
+@Component({
+  selector: 'app-employee-details',
+  templateUrl: './employee-details.component.html',
+  styleUrls: ['./employee-details.component.css']
+})
+export class EmployeeDetailsComponent implements OnInit {
+ id:number;
+ employee:Employee;
+  constructor(private route:ActivatedRoute,private router:Router,private empService:EmployeeService,) 
+  { 
+  }
+
+  ngOnInit(): void {
+    this.employee=new Employee();
+    this.id=this.route.snapshot.params["id"];
+    this.empService.getEmployee(this.id).subscribe(data=> {
+      this.employee=data;
+    },
+    error=>{
+      console.log(error);
+    })
+  }
+
+}
+
+employee-details.component.html
+
+<!-- <p>employee-details works!</p> -->
+<h2>Employee Details</h2>
+<hr/>
+<div *ngIf="employee">
+</div>
+<div>
+<label><b>First Name:</b></label>
+{{employee.firstName}}
+</div>
+<div>
+    <label><b>Last Name:</b></label>
+    {{employee.lastName}}
+</div>
+<div>
+    <label><b>Email Id:</b></label>
+    {{employee.emailId}}
+</div>
+
+create-employee.component.ts
+
+import { ThrowStmt } from '@angular/compiler';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Employee } from '../employee';
+import { EmployeeService } from '../employee.service';
+
+@Component({
+  selector: 'app-create-employee',
+  templateUrl: './create-employee.component.html',
+  styleUrls: ['./create-employee.component.css']
+})
+export class CreateEmployeeComponent implements OnInit {
+  employee:Employee=new Employee();
+  submitted=false;
+  constructor(private employeeService:EmployeeService,private router:Router) 
+  { 
+
+  }
+
+  ngOnInit(): void {
+  }
+newEmployee():void{
+  this.submitted=false;
+  this.employee=new Employee();
+}
+onSubmit()
+{
+  this.submitted=true;
+  this.save();
+}
+save()
+{
+  this.employeeService.createEmployee(this.employee).subscribe(
+    data => {            
+     // console.log(data);      
+      this.gotoList();
+},error=>{console.log(error);});
+}
+gotoList()
+{
+  this.router.navigate(['/employees']); 
+}
+}
+
+
+create-employee.component.html
+
+<!-- <p>update-employee works!</p> -->
+<h3>Create Employee</h3>
+<div  [hidden]="submitted" style="width:400px">
+    <form (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="name">First Name:</label>
+            <input type="text" class="form-control" id="firstName" required [(ngModel)]="employee.firstName" name="firstName">
+        </div>
+        <div class="form-group">
+            <label for="name">Last Name:</label>
+            <input type="text" class="form-control" id="lastName" required [(ngModel)]="employee.lastName" name="lastName">
+        </div>
+        <div class="form-group">
+            <label for="name">Email id:</label>
+            <input type="text" class="form-control" id="emailId" required [(ngModel)]="employee.emailId" name="emailId">
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+</div>
+
+<div [hidden]="!submitted">
+    <h4>You submitted Successfully.</h4>
+</div>
+
+employee.json
+{
+  "employee": [
+    {
+      "id": 2,
+      "firstName": "sai",
+      "lastName": "ram",
+      "emailId": "sairam@gmail.com",
+      "active": true
+    },
+    {
+      "firstName": "siva",
+      "lastName": "rao",
+      "emailId": "siva@gmail.com",
+      "id": 3
+    }
+  ]
+}
 
 
 
